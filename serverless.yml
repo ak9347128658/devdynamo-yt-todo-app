@@ -1,0 +1,58 @@
+service: todo-app
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: dev
+  region: ap-south-1
+  environment:
+    MONGODB_URI: ${env:MONGODB_URI}
+  # vpc:
+  #   securityGroupIds:
+  #     - sg-07928b1e3b9adc98f
+  #   subnetIds:
+  #     - subnet-045c93af3819815c3
+
+functions:
+  createTodo:
+    handler: handlers/todoHandler.create
+    memorySize: 128
+    events:
+      - http:
+          path: todos
+          method: post
+          cors: true
+  getTodos:
+    handler: handlers/todoHandler.get
+    memorySize: 128     
+    events:
+      - http:
+          path: todos
+          method: get
+          cors: true
+  updateTodo:
+    handler: handlers/todoHandler.update
+    memorySize: 128     
+    events:
+      - http:
+          path: todos/{id}
+          method: put
+          cors: true
+  deleteTodo:
+    handler: handlers/todoHandler.delete
+    memorySize: 128     
+    events:
+      - http:
+          path: todos/{id}
+          method: delete
+          cors: true
+
+plugins:
+  - serverless-offline
+  - serverless-prune-plugin
+  - serverless-dotenv-plugin  
+
+custom:
+  prune:
+    automatic: true
+    number: 2
