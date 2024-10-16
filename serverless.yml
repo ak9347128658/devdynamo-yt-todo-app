@@ -5,8 +5,8 @@ provider:
   runtime: nodejs20.x
   stage: dev
   region: ap-south-1
-  environment:
-    MONGODB_URI: ${env:MONGODB_URI}
+  # environment:
+  #   MONGODB_URI: ${env:MONGODB_URI}
   # vpc:
   #   securityGroupIds:
   #     - sg-07928b1e3b9adc98f
